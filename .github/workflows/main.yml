@@ -34,7 +34,11 @@ jobs:
         ssh-keyscan -H 43.203.19.149 >> ~/.ssh/known_hosts
 
     - name: Deploy to server
-      run: ssh ubuntu@43.203.19.149 'bash -s' < deploy.sh
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh -i ~/.ssh/id_rsa ubuntu@43.203.19.149 'bash -s' < deploy.sh
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
