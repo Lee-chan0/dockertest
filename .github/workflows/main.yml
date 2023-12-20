@@ -21,7 +21,6 @@ jobs:
     - name: Build Docker image
       run: docker build -t apptest-docker .
 
-
     - name: Push Docker image to registry
       run: |
         echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
