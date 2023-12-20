@@ -7,7 +7,7 @@ const PORT = 3000;
 
 app.use('/', [userRouter]);
 
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
     res.send("Welcome Express Server");
 });
 
