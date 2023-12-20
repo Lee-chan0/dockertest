@@ -27,6 +27,12 @@ jobs:
         docker tag apptest-docker ${{ secrets.DOCKER_USERNAME }}/apptest-docker
         docker push ${{ secrets.DOCKER_USERNAME }}/apptest-docker
 
+    - name: Grant Docker permissions
+      run: |
+        sudo usermod -aG docker $USER
+        newgrp docker
+      if: runner.os == 'Linux'
+
     - name: Configure SSH known_hosts
       run: |
         mkdir -p ~/.ssh
@@ -44,3 +50,7 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         CONTAINER_NAME: mycontainer
         IMAGE_NAME: apptest-docker
+
+    - name: Restart Nginx
+      run: |
+        sudo systemctl restart nginx.service
