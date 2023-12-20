@@ -1,10 +1,10 @@
 const express = require('express');
 
 const app = express();
-const PORT = 5001;
+const PORT = 3000;
 
 app.use('/', (req, res) => {
-    res.send("Server is running");
+    res.send("Welcome Express Server");
 });
 
 app.listen(PORT, () => {
