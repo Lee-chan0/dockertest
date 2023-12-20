@@ -19,4 +19,4 @@ docker run -d -p 3001:3000 --name mycontainer-new apptest-docker-new
 cp nginx-blue.conf /etc/nginx/sites-available/default
 
 #nginx재시작
-service nginx restart
+sudo systemctl restart nginx.service
