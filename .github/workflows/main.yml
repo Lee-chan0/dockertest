@@ -28,7 +28,10 @@ jobs:
         docker push ${{ secrets.DOCKER_USERNAME }}/apptest-docker
 
     - name: Configure SSH known_hosts
-      run: ssh-keyscan -H 43.203.19.149 >> ~/.ssh/known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        touch ~/.ssh/known_hosts
+        ssh-keyscan -H 43.203.19.149 >> ~/.ssh/known_hosts
 
     - name: Deploy to server
       run: ssh ubuntu@43.203.19.149 'bash -s' < deploy.sh
