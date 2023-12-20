@@ -16,7 +16,7 @@ docker tag apptest-docker apptest-docker-new
 docker run -d -p 3001:3000 --name mycontainer-new apptest-docker-new
 
 #nginx 설정파일 업데이트
-cp nginx-blue.conf /etc/nginx/sites-available/default
+sudo cp nginx-blue.conf /etc/nginx/sites-available/default
 
 #nginx재시작
 sudo service nginx restart
