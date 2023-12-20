@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Build Docker image
+      run: docker build -t apptest-docker .
+
+    - name: Push Docker image to registry
+      run: |
+        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        docker tag apptest-docker ${{ secrets.DOCKER_USERNAME }}/apptest-docker
+        docker push ${{ secrets.DOCKER_USERNAME }}/apptest-docker
+
+    - name: Deploy to server
+      run: ssh ubuntu@43.203.19.149 'bash -s' < deploy.sh
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        CONTAINER_NAME: mycontainer
+        IMAGE_NAME: apptest-docker
