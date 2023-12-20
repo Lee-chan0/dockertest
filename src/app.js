@@ -5,7 +5,7 @@ const app = express();
 const PORT = 3000;
 
 
-app.use('/', [userRouter])
+app.use('/', [userRouter]);
 
 app.use('/', (req, res) => {
     res.send("Welcome Express Server");
